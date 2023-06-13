@@ -1,7 +1,3 @@
-<?php 
-    require "../php/fungsi_inputMusik.php";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +12,18 @@
     <title>Anime Music Player</title>
 </head>
 <style>
+    :root{
+        --background-dark: #2d3548;
+        --text-light: rgba(255,255,255,0.6);
+        --text-lighter: rgba(255,255,255,0.9);
+        --spacing-s: 8px;
+        --spacing-m: 16px;
+        --spacing-l: 24px;
+        --spacing-xl: 32px;
+        --spacing-xxl: 64px;
+        --width-container: 1200px;
+    }
+    
     * {
     padding: 0;
     margin: 0;
@@ -302,75 +310,100 @@
     }
 
     .main-container .container{
-        height: 520px;
-        width: 400px;
-        background-color: rgba(255,255,255,0.13);
-        position: absolute;
-        transform: translate(-50%,-50%);
-        top: 50%;
-        left: 50%;
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-        border: 2px solid rgba(255,255,255,0.1);
-        box-shadow: 0 0 40px rgba(8,7,16,0.6);
-        padding: 50px 35px;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        height: 100%;
     }
 
-    .main-container .container *{
-        color: #f2f2f2;
-        letter-spacing: 0.5px;
-        outline: none;
-        border: none;
-    }
-
-    .main-container .container h1{
-        font-size: 32px;
-        font-weight: 500;
-        line-height: 42px;
-        text-align: center;
-    }
-
-    .main-container .container .box-input label{
-        display: block;
-        margin-top: 30px;
-        font-size: 16px;
-        font-weight: 500;
-    }
-
-    .main-container .container .box-input input[type="text"]{
-        display: block;
-        height: 50px;
-        width: 100%;
-        background-color: rgba(147, 147, 147, 0.492);
-        border-radius: 3px;
-        padding: 0 10px;
-        margin-top: 8px;
-        font-size: 14px;
-        font-weight: 300;
-    }
-
-    .main-container .container input[type="file"]{
-        margin-top: 10px;
-    }
-
-    .main-container .container input[type="submit"]{
-        width: 55vh;
-        background-color: #fff;
-        color: #222;
-        border: none;
-        padding: 10px 20px;
-        font-size: 14px;
-        font-weight: 700;
-        border-radius: 4px;
+    .hero-section{
+        align-items: flex-start;
+        /* background-image: linear-gradient(15deg, #0f4667 0%, #2a6973 150%); */
         display: flex;
-        align-items: center;
+        min-height: 100%;
         justify-content: center;
-        margin-right: 10px;
-        text-decoration: none;
-        margin-top: 10vh;
+        padding: var(--spacing-xxl) var(--spacing-l);
     }
 
+    .card-grid{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-column-gap: var(--spacing-l);
+        grid-row-gap: var(--spacing-l);
+        max-width: var(--width-container);
+        width: 100%;
+    }
 
+    @media(min-width: 540px){
+        .card-grid{
+            grid-template-columns: repeat(2, 1fr); 
+        }
+    }
+
+    @media(min-width: 960px){
+        .card-grid{
+            grid-template-columns: repeat(4, 1fr); 
+        }
+    }
+
+    .card{
+        list-style: none;
+        position: relative;
+    }
+
+    .card:before{
+        content: '';
+        display: block;
+        padding-bottom: 150%;
+        width: 100%;
+    }
+
+    .card__background{
+        background-size: cover;
+        background-position: center;
+        border-radius: var(--spacing-l);
+        bottom: 0;
+        filter: brightness(0.75) saturate(1.2) contrast(0.85);
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform-origin: center;
+        trsnsform: scale(1) translateZ(0);
+        transition: 
+            filter 200ms linear,
+            transform 200ms linear;
+    }
+
+    .card:hover .card__background{
+        transform: scale(1.05) translateZ(0);
+    }
+
+    .card-grid:hover > .card:not(:hover) .card__background{
+        filter: brightness(0.5) saturate(0) contrast(1.2) blur(20px);
+    }
+
+    .card__content{
+        left: 0;
+        padding: var(--spacing-l);
+        position: absolute;
+        top: 0;
+    }
+
+    .card__category{
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: var(--spacing-s);
+        text-transform: uppercase;
+    }
+    .card__heading{
+        color: var(--text-lighter);
+        font-size: 1.9rem;
+        text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
+        line-height: 1.4;
+        word-spacing: 100vw;
+    }
 </style>
 <body>
     <div class="sidebar">
@@ -394,13 +427,13 @@
         <div class="navigation">
             <ul>
                 <li>
-                    <a href="inputMusik.php">
+                    <a href="../pageInputMusik/inputMusik.php">
                         <span class="fa fas fa-plus-square"></span>
                         <span>Upload Lagu</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../pageAbout/about.php">
+                    <a href="about.php">
                         <span class="fa fas fa-heart"></span>
                         <span>About Us</span>
                     </a>
@@ -411,31 +444,30 @@
 
     <div class="main-container">
         <div class="container">
-            <h1>Input Data Lagu</h1>    
-
-            <form method="POST" action="" enctype="multipart/form-data">
-                <div class="box-input">
-                    <label for="judul">Judul:</label>
-                    <input type="text" name="judul" id="judul" required>
-                </div>
-
-                <div class="box-input">
-                    <label for="artis">Artis:</label>
-                    <input type="text" name="artis" id="artis" required>
-                </div>
-                
-                <div class="box-input">
-                    <label for="file_album">Foto Album:</label>
-                    <input type="file" name="file_album" id="file_album" required>
-                </div>
-
-                <div class="box-input">
-                    <label for="file_musik">File Musik:</label>
-                    <input type="file" name="file_musik" id="file_musik" required>
-                </div>
-
-                <input class="btn" type="submit" value="Simpan">
-            </form>
+            <section class="hero-section">
+                <div class="card-grid">
+                    <a class="card" href="#">
+                        <div class="card__background" style="background-image: url(image/putu.jpg)"></div>
+                        <div class="card__content">
+                            <p class="card__category">210211060093</p>
+                            <h3 class="card__heading">I Putu Wijaya</h3>
+                        </div>
+                    </a>
+                    <a class="card" href="#">
+                        <div class="card__background" style="background-image: url(image/joysen.jpg)"></div>
+                        <div class="card__content">
+                            <p class="card__category">210211060000</p>
+                            <h3 class="card__heading">Joysen Wiclif Mewengkang</h3>
+                        </div>
+                    </a>
+                    <a class="card" href="#">
+                        <div class="card__background" style="background-image: url(image/juan.jpg)"></div>
+                        <div class="card__content">
+                            <p class="card__category">Category</p>
+                            <h3 class="card__heading">Juan Rindengan</h3>
+                        </div>
+                    </a>
+            </section>
         </div>
     </div>
 

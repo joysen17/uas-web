@@ -19,7 +19,6 @@
         move_uploaded_file($namaSementaraMusik, $lokasiUploadMusik);
 
         $query = "INSERT INTO tabel_musik (judul, artis, music, foto_album) VALUES ('$judul', '$artis', '$lokasiUploadMusik', '$lokasiUploadAlbum')";
-        mysqli_query($koneksi, $query);
         $result = mysqli_query($koneksi, $query);
 
         if ($result) {
